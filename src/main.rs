@@ -17,11 +17,13 @@ use serde_json::Result;
 fn main() {
     // rocket::ignite().mount("/", routes![index]).launch();
 
-    list_channels();
+    let result: Result<Vec<Channel>> = list_channels();
+    let channels = result.unwrap();
+    println!("{:#?}", channels[0]);
 }
 
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 struct Channel {
     active: bool,
     remote_pubkey: String,
@@ -53,13 +55,13 @@ struct WalletBalance {
     total_balance: i64,
     confirmed_balance: i64,
     unconfirmed_balance: i64
-};
+}
 
 #[derive(Serialize, Deserialize)]
 struct ChannelBalance {
     balance: i64,
     pending_open_balance: i64
-};
+}
 
 #[derive(Serialize, Deserialize)]
 struct Transaction {
@@ -78,6 +80,7 @@ struct Transactions {
     transactions: Vec<Transaction>
 }
 
+#[derive(Serialize, Deserialize)]
 struct Outpoint {
     txid_bytes: u64,
     txid_str: String,
@@ -85,15 +88,6 @@ struct Outpoint {
 }
 
 #[derive(Serialize, Deserialize)]
-struct Utxo {
-    type: String,
-    address: String,
-    amount_sat: i64,
-    script_pubkey: String,
-    outpoint: Outpoint,
-    confirmations: i64
-}
-
 struct Peer {
     pub_key: String,
     address: String,
@@ -114,16 +108,11 @@ fn lncli(command: String) -> String {
         .arg(command)
         .output().expect("{}");
 
-    let body = String::from_utf8_lossy(&output.stdout);
-    // let parsed: ListChannelsResult = serde_json::from_str(&body)?;
-    // println!("remote_pubkey: {}", parsed.channels[0].remote_pubkey);
-
-    //Ok(())
-    return body;
+    return String::from_utf8_lossy(&output.stdout).to_string();
 }
 
 fn list_channels() -> Result<Vec<Channel>> {
-    lncli(String::from("listchannels"));
+    let body = lncli(String::from("listchannels"));
     let parsed: ListChannelsResult = serde_json::from_str(&body)?;
     Ok(parsed.channels)
 }
