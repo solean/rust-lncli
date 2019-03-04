@@ -20,6 +20,7 @@ fn main() {
     let result: Result<Vec<Channel>> = list_channels();
     let channels = result.unwrap();
     println!("{:#?}", channels[0]);
+    println!("{:#?}", get_wallet_balance().unwrap());
 }
 
 
@@ -50,7 +51,7 @@ struct ListChannelsResult {
     channels: Vec<Channel>
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 struct WalletBalance {
     total_balance: i64,
     confirmed_balance: i64,
@@ -115,5 +116,11 @@ fn list_channels() -> Result<Vec<Channel>> {
     let body = lncli(String::from("listchannels"));
     let parsed: ListChannelsResult = serde_json::from_str(&body)?;
     Ok(parsed.channels)
+}
+
+fn get_wallet_balance() -> Result<WalletBalance> {
+    let body = lncli(String::from("walletbalance"));
+    let parsed: WalletBalance = serde_json::from_str(&body)?;
+    Ok(parsed)
 }
 
