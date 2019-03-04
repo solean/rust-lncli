@@ -53,9 +53,9 @@ struct ListChannelsResult {
 
 #[derive(Serialize, Deserialize, Debug)]
 struct WalletBalance {
-    total_balance: i64,
-    confirmed_balance: i64,
-    unconfirmed_balance: i64
+    total_balance: String, // i64
+    confirmed_balance: String, // i64
+    unconfirmed_balance: String // i64
 }
 
 #[derive(Serialize, Deserialize)]
