@@ -23,7 +23,7 @@ pub struct Channel {
     initiator: bool
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ListChannelsResult {
     pub channels: Vec<Channel>
 }
@@ -35,13 +35,13 @@ pub struct WalletBalance {
     unconfirmed_balance: String // i64
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct ChannelBalance {
     balance: i64,
     pending_open_balance: i64
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Transaction {
     tx_hash: String,
     amount: i64,
@@ -53,19 +53,19 @@ pub struct Transaction {
     dest_addresses: Vec<String>
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Transactions {
     transactions: Vec<Transaction>
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Outpoint {
     txid_bytes: u64,
     txid_str: String,
     output_index: u32
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Peer {
     pub_key: String,
     address: String,
