@@ -37,8 +37,8 @@ pub struct WalletBalance {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ChannelBalance {
-    balance: i64,
-    pending_open_balance: i64
+    balance: String, // i64
+    pending_open_balance: String // i64
 }
 
 #[derive(Serialize, Deserialize, Debug)]
